@@ -117,7 +117,7 @@ public class PayPal extends Thread {
 		plugin.using_pp.remove(transactID);
 		
 		if(plugin.getConfig().getInt("paypal.mode")==1) {
-			//dá direto
+			//da direto
 			for(String item3 : itens)
 				for(int i=0;i<Integer.parseInt(item3.split(",")[2]);i++) {
 					String grupo = "";
@@ -130,7 +130,7 @@ public class PayPal extends Thread {
 				}
 		}
 		else /*if(plugin.getConfig().getInt("pagseguro.mode")==2)*/ {
-			//dá keys
+			//da keys
 			for(String item4 : itens)
 				for(int i=0;i<Integer.parseInt(item4.split(",")[2]);i++) {
 					String grupo = "";

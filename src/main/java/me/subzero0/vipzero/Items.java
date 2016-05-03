@@ -17,6 +17,7 @@ import org.bukkit.potion.PotionEffect;
 import org.bukkit.potion.PotionEffectType;
 import org.bukkit.potion.PotionType;
 
+@SuppressWarnings("deprecation")
 public class Items extends Thread {
 	private String group;
 	private Main plugin;
@@ -152,7 +153,7 @@ public class Items extends Thread {
 					    					case "aquaaffinity": {is.addUnsafeEnchantment(Enchantment.WATER_WORKER, Integer.parseInt(opt));break;}
 					    					case "name": {
 					    						ItemMeta im = is.getItemMeta();
-					    						opt = opt.replaceAll("&", "ง");
+					    						opt = opt.replaceAll("&", "ยง");
 					    						opt = opt.replaceAll("@player", p.getName());
 					    						im.setDisplayName(opt);
 					    						is.setItemMeta(im);
@@ -161,7 +162,7 @@ public class Items extends Thread {
 					    					case "desc": {
 					    						ItemMeta im = is.getItemMeta();
 					    						ArrayList<String> lore = new ArrayList<String>();
-					    						opt = opt.replaceAll("&", "ง");
+					    						opt = opt.replaceAll("&", "ยง");
 					    						opt = opt.replaceAll("@player", p.getName());
 					    						if(im.getLore()!=null)
 						    						for(String n : im.getLore())
@@ -369,7 +370,7 @@ public class Items extends Thread {
 						    					break;
 						    				}
 											case "name": {
-												opt = opt.replaceAll("&", "ง");
+												opt = opt.replaceAll("&", "ยง");
 												opt = opt.replaceAll("@player", p.getName());
 					    						pm.setDisplayName(opt);
 					    						sample.setItemMeta(pm);
@@ -377,7 +378,7 @@ public class Items extends Thread {
 					    					}
 					    					case "desc": {
 					    						ArrayList<String> lore = new ArrayList<String>();
-					    						opt = opt.replaceAll("&", "ง");
+					    						opt = opt.replaceAll("&", "ยง");
 					    						opt = opt.replaceAll("@player", p.getName());
 					    						if(pm.getLore()!=null)
 						    						for(String n : pm.getLore())
@@ -427,11 +428,11 @@ public class Items extends Thread {
 		    		}
 		    		else if(text.equalsIgnoreCase("command")||text.equalsIgnoreCase("comando")||text.equalsIgnoreCase("cmd")) {
 		    			String command = i.split(",")[3].replaceAll("@player", p.getName());
-		    			plugin.getServer().dispatchCommand(plugin.getServer().getConsoleSender(),command);
+		    			performCommand(command);
 		    		}
 		    		else if(text.equalsIgnoreCase("message")||text.equalsIgnoreCase("mensagem")||text.equalsIgnoreCase("msg")) {
 		    			String msg = i.split(",")[3].replaceAll("@player", p.getName());
-		    			msg = msg.replaceAll("&","ง");
+		    			msg = msg.replaceAll("&","ยง");
 		    			p.sendMessage(msg);
 		    		}
 		    		else {
@@ -440,5 +441,13 @@ public class Items extends Thread {
 	    		}
 	    	}
     	}
+	}
+	
+	public static void performCommand(final String command) {
+	    TaskChain.newChain().add(new TaskChain.GenericTask() {
+	        public void run() {
+	        	Main.plugin.getServer().dispatchCommand(Main.plugin.getServer().getConsoleSender(),command);
+	        }
+	    }).execute();
 	}
 }

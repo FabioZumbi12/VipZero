@@ -25,6 +25,7 @@ public class Commands implements CommandExecutor {
 		this.plugin = plugin;
 	}
 	
+	@SuppressWarnings("deprecation")
 	@Override
 	public boolean onCommand(CommandSender sender, Command cmd, String label, String[] args) {
 		if(cmd.getName().equalsIgnoreCase("addvip")) {
@@ -603,7 +604,7 @@ public class Commands implements CommandExecutor {
 				if(sender.hasPermission("vipzero.tempovip")||sender.hasPermission("vipzero.viptime")||sender.hasPermission("vipzero.user")||sender.isOp()||sender.hasPermission("vipzero.admin"))
 					sender.sendMessage(ChatColor.AQUA+"/tempovip "+ChatColor.WHITE+"- Mostra o ultimo dia de seu VIP.");
 				if(sender.hasPermission("vipzero.trocarvip")||sender.hasPermission("vipzero.changevip")||sender.hasPermission("vipzero.user")||sender.isOp()||sender.hasPermission("vipzero.admin"))
-					sender.sendMessage(ChatColor.AQUA+"/trocarvip "+ChatColor.WHITE+"- Muda o VIP que você está usando.");
+					sender.sendMessage(ChatColor.AQUA+"/trocarvip "+ChatColor.WHITE+"- Muda o VIP que vocÃª estÃ¡ usando.");
 				if(sender.hasPermission("vipzero.gerarkey")||sender.hasPermission("vipzero.newkey")||sender.isOp()||sender.hasPermission("vipzero.admin"))
 					sender.sendMessage(ChatColor.AQUA+"/gerarkey "+ChatColor.WHITE+"- Gera uma key com X dias de VIP.");
 				if(sender.hasPermission("vipzero.keys")||sender.isOp()||sender.hasPermission("vipzero.admin"))
@@ -617,15 +618,15 @@ public class Commands implements CommandExecutor {
 				if(sender.hasPermission("vipzero.mudardias")||sender.hasPermission("vipzero.changedays")||sender.isOp()||sender.hasPermission("vipzero.admin"))
 					sender.sendMessage(ChatColor.AQUA+"/mudardias "+ChatColor.WHITE+"- Muda os dias de do grupo VIP.");
 				if(sender.hasPermission("vipzero.reload")||sender.isOp()||sender.hasPermission("vipzero.admin"))
-					sender.sendMessage(ChatColor.AQUA+"/vipzero reload "+ChatColor.WHITE+"- Recarrega o arquivo de configuração.");
+					sender.sendMessage(ChatColor.AQUA+"/vipzero reload "+ChatColor.WHITE+"- Recarrega o arquivo de configuraÃ§Ã£o.");
 				if(sender.hasPermission("vipzero.pagseguro")||sender.isOp()||sender.hasPermission("vipzero.admin"))
-					sender.sendMessage(ChatColor.AQUA+"/vipzero pagseguro "+ChatColor.WHITE+"- Dá VIP usando o código do PagSeguro.");
+					sender.sendMessage(ChatColor.AQUA+"/vipzero pagseguro "+ChatColor.WHITE+"- DÃ¡ VIP usando o cÃ³digo do PagSeguro.");
 				if(sender.hasPermission("vipzero.paypal")||sender.isOp()||sender.hasPermission("vipzero.admin"))
-					sender.sendMessage(ChatColor.AQUA+"/vipzero paypal "+ChatColor.WHITE+"- Dá VIP usando o código do PayPal.");
+					sender.sendMessage(ChatColor.AQUA+"/vipzero paypal "+ChatColor.WHITE+"- DÃ¡ VIP usando o cÃ³digo do PayPal.");
 				if(sender.hasPermission("vipzero.darvip")||sender.hasPermission("vipzero.givevip")||sender.isOp()||sender.hasPermission("vipzero.admin"))
-					sender.sendMessage(ChatColor.AQUA+"/darvip "+ChatColor.WHITE+"- Dá VIP sem o uso de uma key.");
+					sender.sendMessage(ChatColor.AQUA+"/darvip "+ChatColor.WHITE+"- DÃ¡ VIP sem o uso de uma key.");
 				if(sender.hasPermission("vipzero.addvip")||sender.isOp()||sender.hasPermission("vipzero.admin"))
-					sender.sendMessage(ChatColor.AQUA+"/addvip "+ChatColor.WHITE+"- Dá dias VIPs a todos desse grupo (sem itens).");
+					sender.sendMessage(ChatColor.AQUA+"/addvip "+ChatColor.WHITE+"- DÃ¡ dias VIPs a todos desse grupo (sem itens).");
 			}
 			else {
 				sender.sendMessage(ChatColor.AQUA+"["+plugin.getConfig().getString("server_name").trim()+"] "+ChatColor.DARK_AQUA+"Commands of VipZero:");

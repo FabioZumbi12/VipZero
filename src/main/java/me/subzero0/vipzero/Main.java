@@ -16,7 +16,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Random;
 
-import me.subzero0.fullpvp.permissoes.Permissoes;
 import net.milkbowl.vault.chat.Chat;
 import net.milkbowl.vault.economy.Economy;
 import net.milkbowl.vault.economy.EconomyResponse;
@@ -35,6 +34,7 @@ import org.bukkit.event.server.PluginEnableEvent;
 import org.bukkit.inventory.ItemStack;
 import org.bukkit.inventory.meta.ItemMeta;
 import org.bukkit.inventory.meta.PotionMeta;
+import org.bukkit.plugin.Plugin;
 import org.bukkit.plugin.RegisteredServiceProvider;
 import org.bukkit.plugin.java.JavaPlugin;
 import org.bukkit.potion.Potion;
@@ -45,7 +45,7 @@ import org.bukkit.potion.PotionType;
 import ru.tehkode.permissions.PermissionUser;
 import ru.tehkode.permissions.bukkit.PermissionsEx;
 
-@SuppressWarnings("unused")
+@SuppressWarnings({ "unused", "deprecation" })
 public class Main extends JavaPlugin implements Listener {
 	protected GMHook hook = new GMHook(this);
 	protected static Economy econ = null;
@@ -76,6 +76,7 @@ public class Main extends JavaPlugin implements Listener {
     protected HashMap<String,String> using_pp = new HashMap<String,String>();
     protected FileConfiguration paypal = null;
     
+    public static Plugin plugin;
 	
 	@EventHandler
 	public void onPluginEnabled(PluginEnableEvent event) {
@@ -89,6 +90,7 @@ public class Main extends JavaPlugin implements Listener {
 	
 	@Override
     public void onEnable() {
+		plugin = this;
 		getLogger().info("Enabling VipZero (V"+getDescription().getVersion()+") - Author: SubZero0");
 		Calendar cal = Calendar.getInstance();
 		if(cal.get(Calendar.DATE)==25&&cal.get(Calendar.MONTH)==11) {
@@ -482,20 +484,6 @@ public class Main extends JavaPlugin implements Listener {
 				}
 			}
     	}
-    	else if(getServer().getPluginManager().getPlugin("FullPVP")!=null&&!use_vault_for_perms) {
-    		Permissoes user = new Permissoes(p);
-    		if(!user.hasPermission("fullpvp.vip")) {
-    			user.addPermission("fullpvp.vip");
-    			if(flatfile) {
-					getConfig().set("vips."+getRealName(p.getName())+".usando",grupo);
-					saveConfig();
-				}
-				else {
-					ThreadVZ t = new ThreadVZ(this,"darvip",p,grupo);
-					t.start();
-				}
-    		}
-    	}
     	else {
     		boolean temvip=false;
 			for(String list : getConfig().getStringList("vip_groups"))
@@ -545,10 +533,6 @@ public class Main extends JavaPlugin implements Listener {
     		PermissionUser user  = PermissionsEx.getUser(p);
     		removeRelatedVipGroups(p);
     		user.addGroup(gFinal);
-    	}
-    	else if(getServer().getPluginManager().getPlugin("FullPVP")!=null&&!use_vault_for_perms) {
-    		Permissoes user = new Permissoes(p);
-    		user.removePermission("fullpvp.vip");
     	}
     	else {
     		perms.playerRemoveGroup(p, grupo);
@@ -678,11 +662,6 @@ public class Main extends JavaPlugin implements Listener {
 		    	    		for(int i=0;i<l.length;i++)
 		    	    			if(l[i].equalsIgnoreCase(n.trim()))
 		    	    				user.setGroups(d);
-		    	    	}
-		    	    	else if(getServer().getPluginManager().getPlugin("FullPVP")!=null&&!use_vault_for_perms) {
-		    	    		Permissoes user = new Permissoes(p);
-		    	    		if(user.hasPermission("fullpvp.vip"))
-		    	    			user.removePermission("fullpvp.vip");
 		    	    	}
 		    	    	else {
 		    	    		if(perms.playerInGroup(p, n.trim())) {

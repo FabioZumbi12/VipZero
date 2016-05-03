@@ -12,9 +12,8 @@ import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 
-import me.subzero0.fullpvp.permissoes.Permissoes;
-
 import org.apache.commons.lang.WordUtils;
+import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
@@ -114,6 +113,7 @@ public class ThreadVZ extends Thread {
 		this.dias=dias;
 	}
 	
+	@SuppressWarnings("deprecation")
 	public void run() {
         switch(tipo) {
 	        case "addvip": {
@@ -168,10 +168,10 @@ public class ThreadVZ extends Thread {
 					ResultSet rs = pstSV.executeQuery();
 					if(rs.next()) {
 						if(rs.getInt(grupo)!=0) {
-							if(plugin.getServer().getPluginManager().getPlugin("GroupManager")!=null&&!plugin.use_vault_for_perms) {
+							if(Bukkit.getServer().getPluginManager().getPlugin("GroupManager")!=null&&!plugin.use_vault_for_perms) {
 								plugin.hook.setGroup((Player)sender, grupo);
 						    }
-						    else if(plugin.getServer().getPluginManager().getPlugin("PermissionsEx")!=null&&!plugin.use_vault_for_perms) {
+						    else if(Bukkit.getServer().getPluginManager().getPlugin("PermissionsEx")!=null&&!plugin.use_vault_for_perms) {
 						    	PermissionUser user  = PermissionsEx.getUser((Player)sender);
 						    	String[] n = {grupo};
 						    	user.setGroups(n);
@@ -249,7 +249,7 @@ public class ThreadVZ extends Thread {
 						PreparedStatement pst = con.prepareStatement("SELECT * FROM `vips` WHERE `nome`='"+sender.getName()+"';");
 						ResultSet rs = pst.executeQuery();
 						if(plugin.usekey_global)
-							plugin.getServer().broadcastMessage(ChatColor.AQUA+"["+plugin.getConfig().getString("server_name").trim()+"] "+ChatColor.WHITE+plugin.getMessage("success3").trim().replaceAll("%name%", sender.getName()).replaceAll("%group%", grupo).replaceAll("%days%", Integer.toString(dias))+"!");
+							Bukkit.getServer().broadcastMessage(ChatColor.AQUA+"["+plugin.getConfig().getString("server_name").trim()+"] "+ChatColor.WHITE+plugin.getMessage("success3").trim().replaceAll("%name%", sender.getName()).replaceAll("%group%", grupo).replaceAll("%days%", Integer.toString(dias))+"!");
 						else
 							sender.sendMessage(ChatColor.AQUA+"["+plugin.getConfig().getString("server_name").trim()+"] "+ChatColor.WHITE+plugin.getMessage("success2").replaceAll("%group%", grupo).replaceAll("%days%", Integer.toString(dias))+"!");
 						if(rs.next()) {
@@ -342,10 +342,10 @@ public class ThreadVZ extends Thread {
 						PreparedStatement pst2 = con.prepareStatement("DELETE FROM `vips` WHERE `nome`='"+p.getName()+"';");
 						pst2.execute();
 						pst2.close();
-						if(plugin.getServer().getPluginManager().getPlugin("GroupManager")!=null&&!plugin.use_vault_for_perms) {
+						if(Bukkit.getServer().getPluginManager().getPlugin("GroupManager")!=null&&!plugin.use_vault_for_perms) {
 							plugin.hook.setGroup(p, plugin.getConfig().getString("default_group").trim());
 				    	}
-				    	else if(plugin.getServer().getPluginManager().getPlugin("PermissionsEx")!=null&&!plugin.use_vault_for_perms) {
+				    	else if(Bukkit.getServer().getPluginManager().getPlugin("PermissionsEx")!=null&&!plugin.use_vault_for_perms) {
 				    		PermissionUser user  = PermissionsEx.getUser(p);
 				    		String[] n = {plugin.getConfig().getString("default_group").trim()};
 				    		user.setGroups(n);
@@ -356,7 +356,7 @@ public class ThreadVZ extends Thread {
 				    					Main.perms.playerRemoveGroup(p, g.trim());
 				    		Main.perms.playerAddGroup(p, plugin.getConfig().getString("default_group").trim());
 				    	}
-						plugin.getServer().broadcastMessage(ChatColor.AQUA+"["+plugin.getConfig().getString("server_name").trim()+"] "+ChatColor.WHITE+plugin.getMessage("rvip").trim().replaceAll("%admin%", sender.getName()).replaceAll("%name%", p.getName())+"!");
+						Bukkit.getServer().broadcastMessage(ChatColor.AQUA+"["+plugin.getConfig().getString("server_name").trim()+"] "+ChatColor.WHITE+plugin.getMessage("rvip").trim().replaceAll("%admin%", sender.getName()).replaceAll("%name%", p.getName())+"!");
 					}
 					else
 						sender.sendMessage(ChatColor.AQUA+"["+plugin.getConfig().getString("server_name").trim()+"] "+ChatColor.WHITE+p.getName()+" "+plugin.getMessage("error9")+"!");
@@ -402,7 +402,7 @@ public class ThreadVZ extends Thread {
 							PreparedStatement pst2 = con.prepareStatement("UPDATE `vips` SET `"+grupo+"`="+dias+" WHERE `nome`='"+p.getName()+"';");
 							pst2.executeUpdate();
 							pst2.close();
-							plugin.getServer().broadcastMessage(ChatColor.AQUA+"["+plugin.getConfig().getString("server_name").trim()+"] "+ChatColor.WHITE+plugin.getMessage("cdays").trim().replaceAll("%admin%", sender.getName()).replaceAll("%group%", grupo).replaceAll("%name%", p.getName()).replaceAll("%days%", Integer.toString(dias))+"!");
+							Bukkit.getServer().broadcastMessage(ChatColor.AQUA+"["+plugin.getConfig().getString("server_name").trim()+"] "+ChatColor.WHITE+plugin.getMessage("cdays").trim().replaceAll("%admin%", sender.getName()).replaceAll("%group%", grupo).replaceAll("%name%", p.getName()).replaceAll("%days%", Integer.toString(dias))+"!");
 						}
 						else
 							sender.sendMessage(ChatColor.AQUA+"["+plugin.getConfig().getString("server_name").trim()+"] "+ChatColor.WHITE+plugin.getMessage("error1")+"!");
@@ -534,12 +534,12 @@ public class ThreadVZ extends Thread {
 	    				else {
 	    					if(plugin.getConfig().getBoolean("rvip_unlisted")) {
 		    					for(String n : plugin.getConfig().getStringList("vip_groups")) {
-		    		    			if(plugin.getServer().getPluginManager().getPlugin("GroupManager")!=null&&!plugin.use_vault_for_perms) {
+		    		    			if(Bukkit.getServer().getPluginManager().getPlugin("GroupManager")!=null&&!plugin.use_vault_for_perms) {
 		    		    				List<String> l = plugin.hook.getGroups(p2);
 		    		    				if(l.contains(n.trim()))
 		    		    					plugin.hook.setGroup(p2, plugin.getConfig().getString("default_group").trim());
 		    		    	    	}
-		    		    	    	else if(plugin.getServer().getPluginManager().getPlugin("PermissionsEx")!=null&&!plugin.use_vault_for_perms) {
+		    		    	    	else if(Bukkit.getServer().getPluginManager().getPlugin("PermissionsEx")!=null&&!plugin.use_vault_for_perms) {
 		    		    	    		PermissionUser user  = PermissionsEx.getUser(p2);
 		    		    	    		String[] l = user.getGroupsNames();
 		    		    	    		String[] d = {plugin.getConfig().getString("default_group").trim()};
@@ -547,11 +547,6 @@ public class ThreadVZ extends Thread {
 		    		    	    			if(l[i].equalsIgnoreCase(n.trim())) {
 		    		    	    				user.setGroups(d);
 		    		    	    			}
-		    		    	    	}
-		    		    	    	else if(plugin.getServer().getPluginManager().getPlugin("FullPVP")!=null&&!plugin.use_vault_for_perms) {
-		    		    	    		Permissoes user = new Permissoes(p2);
-		    		    	    		if(user.hasPermission("fullpvp.vip"))
-		    		    	    			user.removePermission("fullpvp.vip");
 		    		    	    	}
 		    		    	    	else {
 		    		    	    		if(Main.perms.playerInGroup(p2, n.trim())) {
@@ -580,7 +575,7 @@ public class ThreadVZ extends Thread {
 						PreparedStatement pst = con.prepareStatement("SELECT * FROM `vips` WHERE `nome`='"+p.getName()+"';");
 						ResultSet rs = pst.executeQuery();
 						if(plugin.usekey_global)
-							plugin.getServer().broadcastMessage(ChatColor.AQUA+"["+plugin.getConfig().getString("server_name").trim()+"] "+ChatColor.WHITE+plugin.getMessage("success3").trim().replaceAll("%name%", p.getName()).replaceAll("%group%", grupo).replaceAll("%days%", Integer.toString(dias))+"!");
+							Bukkit.getServer().broadcastMessage(ChatColor.AQUA+"["+plugin.getConfig().getString("server_name").trim()+"] "+ChatColor.WHITE+plugin.getMessage("success3").trim().replaceAll("%name%", p.getName()).replaceAll("%group%", grupo).replaceAll("%days%", Integer.toString(dias))+"!");
 						else
 							p.sendMessage(ChatColor.AQUA+"["+plugin.getConfig().getString("server_name").trim()+"] "+ChatColor.WHITE+plugin.getMessage("success2").replaceAll("%group%", grupo).replaceAll("%days%", Integer.toString(dias))+"!");
 						if(rs.next()) {
